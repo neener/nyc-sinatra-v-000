@@ -1,7 +1,7 @@
 class FiguresController < ApplicationController
 
 	get '/figures' do
-		@figure = Figure.all
+		@figures = Figure.all
 		erb :'figures/index'
 	end
 
@@ -19,7 +19,7 @@ class FiguresController < ApplicationController
 		erb :'figures/edit'
 	end
 
-	post '/figures/new' do
+	post '/figures' do
 		figure = Figure.create(params[:figure])
 		unless params[:title][:name].empty?
 			figure.titles << Title.find_or_create_by(params[:title])
@@ -31,7 +31,7 @@ class FiguresController < ApplicationController
 		redirect "/figures/#{figure.id}"
 	end
 
-	post '/figures/:id/edit' do
+	post '/figures/:id' do
 		figure = Figure.find_by(id: params[:id])
 		figure.update(params[:figure])
 		unless params[:title][:name].empty?
